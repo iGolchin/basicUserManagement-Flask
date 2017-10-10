@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/css/bootstrap.min.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+    <title>Welcome to our site</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <p id="pp">
+            {% for message in get_flashed_messages()%}
+            {{message}}
+            {%endfor%}
+        </p>
+        <form action="http://localhost:11000/signup/" method="POST" class="col-xs-6" id="f1">
+            <h1 style="margin-left: 120px;margin-top: 40px">Signup!</h1>
+            <br>
+            <input type="text" name="name" placeholder="Username" style="margin-top: 20px">
+            <br>
+            <input type="email" name="mail" placeholder="E-mail" style="margin-top: 20px">
+            <br>
+            <input type="password" name="password" placeholder="Password!" style="margin-top: 20px">
+            <br>
+            <input type="submit" value="Signup!" style="margin-top: 20px">
+
+        </form>
+        <form action="http://localhost:11000/signin/" method="POST" class="col-xs-6" id="f2">
+            <h1 style="margin-left: 125px;margin-top: 40px">Signin!</h1>
+            <br>
+            <input type="text" name="name" placeholder="Username">
+            <br>
+            <input type="password" name="password" placeholder="Password!">
+            <br>
+            <input type="submit" value="Signin!">
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
