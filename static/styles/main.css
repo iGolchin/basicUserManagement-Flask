@@ -1,0 +1,39 @@
+body
+{
+    background-image: url("bk.jpg");background-repeat: no-repeat;background-size: 300%;
+}
+input
+{
+    margin-top:30px;
+    margin-left:100px;
+}
+#f1
+{
+    margin-top: 80px;
+    background-color: #2aabd2;
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+
+}
+#f2
+{
+    margin-top: 80px;
+    background-color: #555555;
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    margin-left: 150px;
+}
+#pp
+{
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+    background-color: cyan;
+    text-align: center;
+    /*position: absolute;*/
+    /*margin-left: 300px;*/
+    float: none;
+    margin: 0 auto;
+}
