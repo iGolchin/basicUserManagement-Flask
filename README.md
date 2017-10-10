@@ -1,4 +1,4 @@
-# basicUserManagment-Flask
+# basicUserManagement-Flask
 
 A Web Application which is written in Python using Flask library and JSON
 
