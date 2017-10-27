@@ -36,6 +36,7 @@ from flask_mail import Message
 
 app = Flask(__name__)
 app.secret_key='@edru9t&%53qibrz98j1a'
+salt = "L2zREQqYn$6Q1dBht"
 
 #........................................
 
@@ -56,6 +57,8 @@ def signupAccount():
     session['name']=request.form['name']
     session['password']=request.form['password']
     session['mail']=request.form['mail']
+    session['name'] = str.lower(session['name'])
+    session['mail'] = str.lower(session['mail'])
     ######## Existing Check ########
     try:
         isExist = os.path.isfile('./JSON/%(nameFile)s.json' % {"nameFile": session['name']})
@@ -69,29 +72,31 @@ def signupAccount():
             return redirect('/')
         else:
 
-            ######## Saving Username && Hashed Password ########
+            ######## Saving Hashed Username && Hashed Password ########
+            userName = session['name']
+            hashedUsername = hashlib.sha1(userName.encode('utf-8'))
 
-            data ={session['name']:session['password']}
-            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":session['name']}), 'w') as jsn:
+            data ={session['name']:session['password'] + salt}
+            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":hashedUsername.hexdigest()}), 'w') as jsn:
                 json.dump(data, jsn,indent = 2)
 
-            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":session['name']}), 'r') as jsn:
+            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":hashedUsername.hexdigest()}), 'r') as jsn:
                 passwd = json.load(jsn)
                 for j in passwd:
                     i = j
 
             hashedPassword = hashlib.sha1(passwd[i].encode('utf-8'))
 
-            data = {session['name']: hashedPassword.hexdigest()}
+            data = {hashedUsername.hexdigest(): hashedPassword.hexdigest()}
             # print(data)
-            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":session['name']}), 'w') as jsn:
+            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":hashedUsername.hexdigest()}), 'w') as jsn:
 
                 json.dump(data, jsn,indent = 2)
 
             ######## Saving Email ########
 
             emailData = {session['name']:session['mail']}
-            with open(os.path.join('./email/%(nameFile)s.json'%{"nameFile":session['name']}), 'w') as jsn:
+            with open(os.path.join('./email/%(nameFile)s.json'%{"nameFile":hashedUsername.hexdigest()}), 'w') as jsn:
                 json.dump(emailData, jsn)
 
             ######## Success && Cookie saving ########
@@ -108,10 +113,13 @@ def signupAccount():
 def checkPasswordAndName():
     session['name']=request.form['name']
     session['password']=request.form['password']
+    session['name'] = str.lower(session['name'])
+    userName = session['name']
+    hashedUsername = hashlib.sha1(userName.encode('utf-8'))
     if (session['name'] !='') and (session['password']!=''):
 
         try:
-            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":session['name']}), 'r') as jsn:
+            with open(os.path.join('./JSON/%(nameFile)s.json'%{"nameFile":hashedUsername.hexdigest()}), 'r') as jsn:
                 data = json.load(jsn)
 
                 for j in data:
@@ -119,10 +127,10 @@ def checkPasswordAndName():
         except:
             flash("Username or Passowrd is wrong!")
             return redirect('/')
-
+        session['password'] = session['password'] + salt
         hashedPassword = hashlib.sha1(session['password'].encode('utf-8'))
 
-        if session['name'] == i:
+        if hashedUsername.hexdigest() == i:
             if hashedPassword.hexdigest() == data[i]:
 
                 ######## Success && Cookie saving ########
@@ -161,7 +169,7 @@ def register():
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USE_SSL'] = False
     app.config['MAIL_USERNAME'] = 'www.igolchin@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'yhaqlixaachoemjn'
+    app.config['MAIL_PASSWORD'] = 'yhaqiixaachoemjn'
 
     msg = Message("Hello",
                   sender="www.igolchin@gmail.com",
