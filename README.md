@@ -26,6 +26,13 @@ V1.3
 - Creating subdirectories and file management
 - Saving Email addresses and getting ready for V1.4 :))
 
+V1.4
+
+-Added SALT to hashed passwords
+-Lowercase problem fixed for usernames and email
+-Added username hashing without SALT
+-Saving JSON in hashed name that aren’t reversible
+
 Note: before using this web application remember to install Python 3.5 and Flask, Flask-Mail using pip.
 
 This web application is licensed under GNU GENERAL PUBLIC LICENSE (GPL) for the good of web development
