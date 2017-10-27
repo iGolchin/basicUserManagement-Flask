@@ -1,6 +1,6 @@
 ##################################################################
 ##  SignupPage.py                                               ##
-##  Signup Page V1.3  Build 267                                 ##
+##  Signup Page V1.4  Build 291                                 ##
 ##                                                              ##
 ##  A simple Flask based application for signup.                ##
 ##                                                              ##
